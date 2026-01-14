@@ -1,0 +1,8 @@
+{% extends "core/base.html" %}
+
+{% block title %} Home {% endblock %}
+
+{% block content %}
+    <a href={% url 'core:product-index' %}>Products</a>
+    <a href={% url 'core:category-index' %}>Categories</a>
+{% endblock %}

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>{% block title %}Home{% endblock %} | Klub</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
+</head>
+
+<body>
+  <header>
+    <nav class='navbar'>
+      <div class='navbar-left'>
+        <a href="{% url 'core:home' %}" class='navbar-logo'><img src={% static 'core/img/logo.png' %} alt='logo'></a>
+        <a href="{% url 'core:product-index' %}">Products</a>
+        <a href="{% url 'core:category-index' %}">Categories</a>
+      </div>
+      <div class='navbar-right'>
+        {% if user.is_authenticated %}
+          {% if user.userrole.role == 'customer' %}
+            <a href="{% url 'core:wishlist-index' %}" class='navbar-left'>Wishlist</a>
+          {% elif user.userrole.role == 'seller' %}
+            <a href="{% url 'core:product-offer' %}" class='navbar-left'>Offer Product</a>
+          {% endif %}
+            <form method="post" action="{% url 'core:logout' %}" class="logout-form">
+              {% csrf_token %}
+              <button type="submit" class="logout-button">Logout</button>
+            </form>
+        {% else %}
+          <a href="{% url 'core:login' %}" class='navbar-left'>Login</a>
+        {% endif %}
+      </div>
+    </nav>
+  </header>
+  <main>
+    {% block content %}
+    {% endblock %}
+  </main>
+</body>
+</html>

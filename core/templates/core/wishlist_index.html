@@ -1,0 +1,28 @@
+{% extends "core/base.html" %}
+
+{% block title %}Wishlist{% endblock %}
+
+{% block content %}
+    <h1>Wishlist</h1>
+    {% if product_list %}
+        <table>
+            {% for product in product_list %}
+                <tr>
+                    <td><a href="{% url 'core:product-detail' product.id %}">{{ product.name }}</a></td>
+                    <td>
+                        <form method="post" action="{% url 'core:wishlist-toggle' product.id %}" class="wishlist-form">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{% url 'core:wishlist-index' %}">
+                        <button type="submit" class="wishlist-button">
+                            Remove
+                        </button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>There are no products on your wishlist.</p>
+        <a href="{% url 'core:product-index' %}">Browse?</a>
+    {% endif %}
+{% endblock %}

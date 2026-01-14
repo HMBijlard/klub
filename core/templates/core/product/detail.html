@@ -1,0 +1,64 @@
+{% extends "core/base.html" %}
+
+{% block title %} {{ product.name }} {% endblock %}
+
+{% block content %}
+    <div class='product-section'>
+        <h1>{{ product.name }}</h1>
+        {% if user.is_authenticated %}
+        <form method="post" action="{% url 'core:wishlist-toggle' product.id %}" class="wishlist-form">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{% url 'core:product-detail' product.id %}">
+            <button type="submit" class="wishlist-button">
+                {% if product in user.wishlist.products.all %}
+                    Remove from wishlist
+                {% else %}
+                    Add to wishlist
+                {% endif %}
+            </button>
+        </form>
+        {% endif %}
+    </div>
+    {% with offers=product.offers.all %}
+        {% if offers %}
+            <div class='product-offerings'>
+                <table>
+                    <tr>
+                        <th>Offerer</th>
+                        <th>Discount</th>
+                        <th>Met?</th>
+                    </tr>
+                {% for offer in offers %}
+                    <tr>
+                        <td>{{offer.seller}}</td>
+                        <td>{{offer.discount}}%</td>
+                        <td>
+                            {% if product.wishlist_user_count >= offer.min_quantity%}
+                            ✔
+                            {% else %}
+                            ✖
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </table>
+            </div>
+        {% endif %}
+    {% endwith %}
+    <div class='product-section'>
+        <h2>Product Categories</h2>
+        <ul>
+            {% for category in product.categories.all%}
+            <li>
+                <a href={% url 'core:category-detail' category.id%}>{{ category.name }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class='product-section'>
+        <h2>Product Description</h2>
+        <p>
+            {{ product.description }}
+        </p>
+    </div>
+{% endblock %}

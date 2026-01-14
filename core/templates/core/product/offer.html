@@ -1,0 +1,47 @@
+{% extends "core/base.html" %}
+
+{% block title %}Offer Product{% endblock %}
+
+{% block content %}
+  {% if messages %}
+    {% for message in messages%}
+        <p>{{message}}</p>
+    {% endfor %}
+  {% endif %}
+  <div class="offer-product-container">
+  <h1>Offer a product</h1>
+
+  <form method="post">
+    {% csrf_token %}
+
+    {{ form.non_field_errors }}
+
+    <div class="form-field">
+      {{ form.name.label_tag }}
+      {{ form.name }}
+      {{ form.name.errors }}
+    </div>
+    <div class="form-field">
+      {{ form.categories.label_tag }}
+      {{ form.categories }}
+      {{ form.categories.errors }}
+    </div>
+    <div class="form-field">
+      {{ form.description.label_tag }}
+      {{ form.description }}
+      {{ form.description.errors }}
+    </div>
+    <div class="form-field">
+      {{ form.min_quantity.label_tag }}
+      {{ form.min_quantity }}
+      {{ form.min_quantity.errors }}
+    </div>
+    <div class="form-field">
+      {{ form.discount.label_tag }}
+      {{ form.discount }}
+      {{ form.discount.errors }}
+    </div>
+    <button type="submit">Create</button>
+  </form>
+  </div>
+{% endblock %}
