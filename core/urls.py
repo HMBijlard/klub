@@ -14,5 +14,7 @@ urlpatterns = [
     path("accounts/register/", views.UserRegistrationView.as_view(), name="register"),
     path("accounts/", include("django.contrib.auth.urls")),
     path("wishlist/", views.WishlistView.as_view(), name="wishlist-index"),
-    path("wishlist/add/<int:product_id>", views.WishlistToggleView.as_view(), name="wishlist-toggle")
+    path("wishlist/add/<int:product_id>", views.WishlistToggleView.as_view(), name="wishlist-toggle"),
+    path("profile/<int:pk>", views.SellerProfileView.as_view(), name="profile"),
+    path("profile/edit/", views.SellerProfileUpdateView.as_view(), name="profile-edit")
 ]

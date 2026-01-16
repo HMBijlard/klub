@@ -1,0 +1,23 @@
+<div id="{{ map_id|default:'map' }}" style="height: {{ map_height|default:'500px' }}; width: 100%;"></div>
+
+{{ geojson|json_script:geojson_script_id }}
+
+<script>
+  window.addEventListener("DOMContentLoaded", function () {
+    const map = L.map("{{ map_id|default:'map' }}")
+      .setView([{{ center_lat|default:52.37 }}, {{ center_lng|default:4.90 }}], {{ zoom|default:12 }});
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution: "&copy; OpenStreetMap contributors",
+    }).addTo(map);
+
+    const el = document.getElementById("{{ geojson_script_id }}");
+    if (el && el.textContent && el.textContent !== "null") {
+      const data = JSON.parse(el.textContent);
+      const layer = L.geoJSON(data).addTo(map);
+      const bounds = layer.getBounds();
+      if (bounds.isValid()) map.fitBounds(bounds, { padding: [20, 20] });
+    }
+  });
+</script>

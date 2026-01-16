@@ -1,0 +1,20 @@
+{% extends "core/base.html" %}
+
+{% block title %}{{seller.username}}{% endblock %}
+
+{% block extra_headers %}
+{% include "core/components/map/headers.html" %}
+{% endblock %}
+
+{% block content %}
+<h1>{{seller.username}}</h1>
+<h1>Description</h1>
+{% if seller.profile.description %}
+    <p>{{seller.profile.description}}</p>
+{% else %}
+    <p>Seller does not have description</p>
+{% endif %}
+
+{% include "core/components/map/map.html" with map_id="seller-map" map_height="500px" center_lat=52.37 center_lng=4.90 zoom=12 geojson=locations_geojson geojson_script_id="seller-locations-geojson" %}
+
+{% endblock %}

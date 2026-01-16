@@ -6,7 +6,9 @@ from django.contrib.auth.forms import UserCreationForm
 
 from django.core.exceptions import ValidationError
 
-from .models import Product, ProductOffering, UserRole
+from django.contrib.gis import forms as gis_forms
+
+from .models import Product, ProductOffering, UserRole, SellerProfile
 
 User = get_user_model()
 
@@ -23,10 +25,17 @@ class RegistrationForm(UserCreationForm):
     def save(self, commit=True):
         user = super().save(commit)
 
+        role = self.cleaned_data["role"]
+
         UserRole.objects.create(
             user=user,
-            role=self.cleaned_data["role"],
+            role=role,
         )
+
+        if role == UserRole.Role.SELLER:
+            SellerProfile.objects.create(
+                user=user
+            )
 
         return user
     
@@ -57,3 +66,14 @@ class ProductOfferingForm(forms.ModelForm):
                 for err in errors:
                     self.add_error(field if field in self.fields else None, err)
         return cleaned
+
+class SellerProfileForm(forms.ModelForm):
+    class Meta:
+        model = SellerProfile
+        fields = ["description", "locations"]
+        widgets = {
+            "locations": gis_forms.OSMWidget(attrs={
+                "map_width": 800,
+                "map_height": 500,
+            })
+        }

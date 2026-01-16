@@ -1,5 +1,7 @@
 from django.conf import settings
 
+from django.contrib.gis.db import models as gis_models
+
 from django.db import models
 
 from django.core import validators
@@ -80,3 +82,10 @@ class UserRole(models.Model):
     def __str__(self):
         return self.role.title()
     
+class SellerProfile(gis_models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
+    description = models.CharField(max_length=1000, blank=True, null=True)
+    locations = gis_models.MultiPointField(blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.user}'s profile"

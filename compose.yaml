@@ -1,0 +1,17 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgis/postgis:16-3.4
+    container_name: geodjango-db
+    environment:
+      POSTGRES_DB: geodjango
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_data:
