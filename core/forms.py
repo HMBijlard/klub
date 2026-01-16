@@ -39,7 +39,7 @@ class RegistrationForm(UserCreationForm):
 
         return user
     
-class ProductOfferingForm(forms.ModelForm):
+class ProductOfferForm(forms.ModelForm):
     min_quantity = forms.IntegerField(min_value=1)
     discount = forms.IntegerField(min_value=1, max_value=100)
 
