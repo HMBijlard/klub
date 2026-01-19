@@ -2,12 +2,20 @@
 
 {% block title %}{{seller.username}}{% endblock %}
 
-{% block extra_headers %}
-{% include "core/components/map/headers.html" %}
-{% endblock %}
+{% if seller.profile.locations %}
+    {% block extra_headers %}
+    {% include "core/components/map/headers.html" %}
+    {% endblock %}
+{% endif %}
 
 {% block content %}
 <h1>{{seller.username}}</h1>
+{% if can_edit %}
+    <h1>Manage</h1>
+    <a href="{% url 'core:profile-edit' %}" class='navbar-left'>Edit Profile</a>
+    <a href="{% url 'core:product-offer' %}" class='navbar-left'>Offer Product</a>
+{% endif %}
+
 <h1>Description</h1>
 {% if seller.profile.description %}
     <p>{{seller.profile.description}}</p>
@@ -15,6 +23,11 @@
     <p>Seller does not have description</p>
 {% endif %}
 
-{% include "core/components/map/map.html" with map_id="seller-map" map_height="500px" center_lat=52.37 center_lng=4.90 zoom=12 geojson=locations_geojson geojson_script_id="seller-locations-geojson" %}
+{% if seller.profile.locations %}
+    <h1>Locations</h1>
+    {% include "core/components/map/map.html" with map_id="seller-map" map_height="500px" center_lat=52.37 center_lng=4.90 zoom=12 geojson=locations_geojson geojson_script_id="seller-locations-geojson" %}
+{% else %}
+    <p>Seller does not have location</p>
+{% endif %}
 
 {% endblock %}

@@ -23,7 +23,7 @@
           {% if user.userrole.role == 'customer' %}
             <a href="{% url 'core:wishlist-index' %}" class='navbar-left'>Wishlist</a>
           {% elif user.userrole.role == 'seller' %}
-            <a href="{% url 'core:product-offer' %}" class='navbar-left'>Offer Product</a>
+            <a href="{% url 'core:profile' user.pk %}" class='navbar-left'>Profile</a>
           {% endif %}
             <form method="post" action="{% url 'core:logout' %}" class="logout-form">
               {% csrf_token %}

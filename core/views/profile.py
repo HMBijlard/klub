@@ -25,6 +25,10 @@ class SellerProfileView(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
+        ctx["can_edit"] = (
+            self.request.user.is_authenticated and
+            self.request.user.pk == self.object.pk
+        )
         seller = ctx["seller"]
 
         points = seller.profile.locations
