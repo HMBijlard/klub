@@ -56,6 +56,13 @@
         </ul>
     </div>
     <div class='product-section'>
+        <form method="post" action="{% url 'core:cart-add' %}">
+        {% csrf_token %}
+        {{add_to_cart_form}}
+        <button type="submit">Add To Cart</button>
+        </form>
+    </div>
+    <div class='product-section'>
         <h2>Product Description</h2>
         <p>
             {{ product.description }}

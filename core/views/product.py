@@ -10,7 +10,7 @@ from django.urls import reverse_lazy
 
 from django.views import generic
 
-from ..forms import ProductOfferForm
+from ..forms import ProductOfferForm, CartAddForm
 
 from ..models import Product, ProductOffering
 
@@ -24,6 +24,13 @@ class ProductIndexView(generic.ListView):
 class ProductDetailView(generic.DetailView):
     model = Product
     template_name = "core/product/detail.html"
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx["add_to_cart_form"] = CartAddForm(
+            initial={"product_id": self.object.pk}
+        )
+        return ctx
 
     def get_queryset(self):
         return super().get_queryset().annotate(wishlist_user_count=Count("wishlists__user", distinct=True))
