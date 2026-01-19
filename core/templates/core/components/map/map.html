@@ -5,7 +5,7 @@
 <script>
   window.addEventListener("DOMContentLoaded", function () {
     const map = L.map("{{ map_id|default:'map' }}")
-      .setView([{{ center_lat|default:52.37 }}, {{ center_lng|default:4.90 }}], {{ zoom|default:12 }});
+      .setView([{{ center_lat|default:52.37 }}, {{ center_lng|default:4.90 }}], {{ zoom|default:8 }});
 
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       maxZoom: 19,

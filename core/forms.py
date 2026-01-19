@@ -73,7 +73,8 @@ class SellerProfileForm(forms.ModelForm):
         fields = ["description", "locations"]
         widgets = {
             "locations": gis_forms.OSMWidget(attrs={
-                "map_width": 800,
-                "map_height": 500,
+                "default_zoom": 6,
+                "default_lon": 4.2,
+                "default_lat": 52.5
             })
         }
