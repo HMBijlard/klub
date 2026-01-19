@@ -43,7 +43,6 @@ class SellerProfileView(generic.DetailView):
 class SellerProfileUpdateView(LoginRequiredMixin, SellerRequiredMixin, generic.UpdateView):
     form_class = SellerProfileForm
     template_name = "core/profile/edit.html"
-    success_url = reverse_lazy("core:profile", kwargs={})
 
     def get_object(self, queryset=None):
         profile, _ = SellerProfile.objects.get_or_create(user=self.request.user)
