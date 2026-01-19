@@ -12,7 +12,7 @@ from ..forms import SellerProfileForm
 
 from ..models import SellerProfile
 
-from ..mixinz import SellerRequiredMixin
+from ..mixins import SellerRequiredMixin
 
 class SellerProfileView(generic.DetailView):
     model = get_user_model()
